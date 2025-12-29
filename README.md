@@ -83,5 +83,5 @@ streamlit run main_rag.py
 ### 1. 核心交互界面
 ![双栏交互界面截图](https://github.com/Golden740/SX2508014---01-NLP/blob/main/images/ui_main.png)
 ### 2. 核心交互界面（增加结构化Prompt）
-![双栏交互界面截图]https://github.com/Golden740/SX2508014---01-NLP/blob/main/images/ui_main1.png
-![双栏交互界面截图]https://github.com/Golden740/SX2508014---01-NLP/blob/main/images/ui_main2.png
+- ![双栏交互界面截图1]https://github.com/Golden740/SX2508014---01-NLP/blob/main/images/ui_main_prompt1.png
+- ![双栏交互界面截图2]https://github.com/Golden740/SX2508014---01-NLP/blob/main/images/ui_main_prompt2.png
