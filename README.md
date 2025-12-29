@@ -75,6 +75,13 @@ streamlit run main_rag.py
 - 优化了Prompt模板，引入ChatML格式 (`<|im_start|>`)。
 - **解决问题**: 通过调整`temperature=0.3`和`repetition_penalty=1.2`，解决了AI回复冗余、复读以及原样复述Prompt资料内容的问题。
 
+### 迭代 4：回复质量优化
+- 优化了Prompt模板，使用结构化指令。
+- **解决问题**: 通过精细化Prompt工程，使模型具备了自动结构化输出的能力。系统能够自动识别医疗建议中的关键动作，并以Markdown列表形式呈现，极大地提升了用户阅读体验和信息的易读性。
+
 ## 运行截图（第一版，未微调）
 ### 1. 核心交互界面
 ![双栏交互界面截图](https://github.com/Golden740/SX2508014---01-NLP/blob/main/images/ui_main.png)
+### 2. 核心交互界面（增加结构化Prompt）
+![双栏交互界面截图]https://github.com/Golden740/SX2508014---01-NLP/blob/main/images/ui_main1.png
+![双栏交互界面截图]https://github.com/Golden740/SX2508014---01-NLP/blob/main/images/ui_main2.png
