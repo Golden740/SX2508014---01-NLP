@@ -25,7 +25,7 @@ print("正在加载 Qwen2.5-7B 到 RTX 5090...")
 tokenizer = AutoTokenizer.from_pretrained(llm_model_dir, trust_remote_code=True)
 model = AutoModelForCausalLM.from_pretrained(
     llm_model_dir,
-    device_map="auto",
+    device_map={"":"cuda:0"},  
     torch_dtype=torch.bfloat16, 
     trust_remote_code=True
 )
