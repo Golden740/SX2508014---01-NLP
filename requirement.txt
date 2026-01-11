@@ -1,0 +1,39 @@
+# 核心深度学习框架
+torch>=2.1.0
+torchvision
+torchaudio
+
+# 大模型基础库 (HuggingFace & ModelScope)
+transformers>=4.45.0
+accelerate>=0.34.0
+modelscope>=1.18.0
+sentencepiece
+tiktoken
+
+# 微调与参数高效适配 (PEFT/Swift)
+ms-swift>=3.0.0
+peft>=0.12.0
+
+# 数据处理与评估
+datasets
+pandas
+numpy
+rouge-chinese
+nltk
+
+# RAG 与 向量数据库
+langchain>=0.2.0
+langchain-huggingface
+langchain-community
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+
+# 交互界面与可视化
+gradio>=5.0.0
+matplotlib
+tensorboard
+scikit-learn
+
+# 系统辅助
+python-dotenv
+tqdm
