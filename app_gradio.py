@@ -12,16 +12,16 @@ from langchain_community.vectorstores import Chroma
 BASE_PATH = "/root/autodl-tmp"
 DB_PATH = os.path.join(BASE_PATH, "chroma_db")
 MODEL_CACHE = os.path.join(BASE_PATH, "models")
+MERGED_MODEL_PATH = "/root/autodl-tmp/output/qwen2_5-7b-medical-lora—pro/v0-20260110-211358/checkpoint-45"
 
 print("正在启动智医 RAG 系统 (结构化输出增强版)...")
 
-# 下载并加载模型
-llm_dir = snapshot_download('qwen/Qwen2.5-7B-Instruct', cache_dir=MODEL_CACHE)
+# 加载模型
 embed_dir = snapshot_download('AI-ModelScope/bge-small-zh-v1.5', cache_dir=MODEL_CACHE)
 
-tokenizer = AutoTokenizer.from_pretrained(llm_dir, trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained(MERGED_MODEL_PATH, trust_remote_code=True)
 model = AutoModelForCausalLM.from_pretrained(
-    llm_dir, device_map="auto", torch_dtype=torch.bfloat16, trust_remote_code=True
+    MERGED_MODEL_PATH, device_map="auto", torch_dtype=torch.bfloat16, trust_remote_code=True
 )
 
 # 初始化 RAG 检索器
