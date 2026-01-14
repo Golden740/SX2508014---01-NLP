@@ -41,10 +41,8 @@ def chat_and_retrieve(message):
         docs = retriever.invoke(message)
         print(f"✅ 检索成功，找到 {len(docs)} 条相关资料")
 
-        # 构造给模型看的全文（可能包含 32k tokens）
         context = "\n".join([f"[{i+1}] {d.page_content}" for i, d in enumerate(docs)])
         
-        # 构造给用户看的简版资料溯源（仅展示前 5 条）
         source_display_content = "### 📚 检索到的参考资料\n\n"
         if not docs:
             source_display_content += "⚠️ 未在知识库中找到相关匹配内容。"
@@ -55,21 +53,20 @@ def chat_and_retrieve(message):
         if len(docs) > 5:
             source_display_content += f"\n*注：后台已检索并分析其余 {len(docs)-5} 条辅助资料以确保结论准确。*"
         
-        # b. 【高标准回复】集成结构化指令与知识扩展的 Prompt
         prompt = f"""<|im_start|>system
 你是一个医生。请回答用户的问题。
 """
 
-        # c. 推理参数优化
+        # 推理参数优化
         inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
         streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
         
         gen_kwargs = dict(
             inputs, 
             streamer=streamer, 
-            max_new_tokens=600,     # 稍微调大字数上限，允许模型写出更详细的建议
-            temperature=0.3,        # 稍微提升一点温度（从0.2到0.4），允许模型在专业范围内进行合理的语言润色
-            repetition_penalty=1.2, # 降低惩罚力度，防止模型因为怕重复而不敢写出结构相似的建议
+            max_new_tokens=600,     
+            temperature=0.3,        
+            repetition_penalty=1.2, 
             top_p=0.9,
             do_sample=True
         )
@@ -77,7 +74,7 @@ def chat_and_retrieve(message):
         thread = Thread(target=model.generate, kwargs=gen_kwargs)
         thread.start()
 
-        # d. 实时流式响应
+        # 实时流式响应
         full_response = ""
         for new_text in streamer:
             # 过滤特殊字符

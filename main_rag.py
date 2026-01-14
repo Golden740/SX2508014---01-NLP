@@ -33,7 +33,7 @@ model = AutoModelForCausalLM.from_pretrained(
 # 4. 加载 Embedding (指向本地路径)
 print("正在加载本地 Embedding 模型...")
 embeddings = HuggingFaceEmbeddings(
-    model_name=embed_model_dir, # 使用刚才下载好的本地路径
+    model_name=embed_model_dir, 
     model_kwargs={'device': 'cuda'}
 )
 

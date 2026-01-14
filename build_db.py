@@ -3,7 +3,6 @@ import os
 from modelscope import snapshot_download
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
-# --- 核心修复：1.x 版本的导入路径 ---
 from langchain_core.documents import Document
 
 # 1. 路径配置
@@ -31,7 +30,6 @@ print("正在读取并解析数据...")
 with open(JSON_DATA, 'r', encoding='utf-8') as f:
     raw_data = json.load(f)
 
-# 使用 1.x 的 Document 构造方式
 documents = [
     Document(
         page_content=item['page_content'], 
@@ -42,7 +40,6 @@ documents = [
 
 # 5. 构建并持久化向量数据库
 print(f"正在构建向量数据库 (Chroma)，存放至: {DB_PATH}...")
-# 注意：Chroma 0.4.x 以后会自动持久化，不需要手动调用 .persist()
 vector_db = Chroma.from_documents(
     documents=documents,
     embedding=embeddings,
