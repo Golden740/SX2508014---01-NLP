@@ -10,13 +10,13 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 
 # --- 1. 路径与配置 ---
 BASE_PATH = "/root/autodl-tmp"
-MODEL_PATH = os.path.join(BASE_PATH, "output/qwen2_5-7b-medical-lora/v0-20251230-233347/checkpoint-45-merged") # 微调后改为合并模型的路径
+MODEL_PATH = os.path.join(BASE_PATH, "output/qwen2_5-7b-medical-lora/v0-20251230-233347/checkpoint-45-merged") 
 DB_PATH = os.path.join(BASE_PATH, "chroma_db")
 TEST_DATA_PATH = os.path.join(BASE_PATH, "medical_sft_pro_test.jsonl")
 
 # 评估参数
-SAMPLE_NUM = 50  # 建议先采样50-100条进行快速评估
-K_VALUE = 50     # 【核心】同步 app_gradio.py 的长上下文检索量，证明 >32k 能力
+SAMPLE_NUM = 50  
+K_VALUE = 50     
 
 print(f"正在初始化评估系统 (长上下文模式 K={K_VALUE})...")
 
@@ -48,7 +48,6 @@ def run_evaluation():
     rouge = Rouge()
     preds, refs = [], []
     
-    # 同步 app_gradio.py 的结构化 System Prompt
     system_instruction = (
         "你是一个极度专业的医疗助手。请在参考资料的基础上，给出具有实操意义、条理清晰的医疗建议。\n\n"
         "【重要提示】：\n"
@@ -106,7 +105,6 @@ def run_evaluation():
     print(f"ROUGE-L (语义逻辑关联): {scores['rouge-l']['f']:.4f}")
     print("="*50)
     
-    # 保存结果以便对比
     save_path = "lora_evaluation_results.json"
     with open(save_path, "w", encoding="utf-8") as f:
         json.dump(scores, f, indent=4)

@@ -3,11 +3,8 @@ import os
 import glob
 import matplotlib.pyplot as plt
 
-# ---------------------------------------------------------
-# 配置区：请确认这个路径是你训练输出的总目录
-# 根据你之前上传的代码，应该是这个：
+
 LOG_SEARCH_PATH = '/root/autodl-tmp/output/qwen2_5-7b-medical-lora—pro'
-# ---------------------------------------------------------
 
 def start_plotting():
     print(f"🔍 正在从 {LOG_SEARCH_PATH} 寻找训练日志...")
@@ -35,7 +32,7 @@ def start_plotting():
         if 'loss' in entry and 'step' in entry:
             train_steps.append(entry['step'])
             train_loss.append(entry['loss'])
-        # 提取验证 Loss (如果你原来的脚本开启了验证)
+        # 提取验证 Loss
         if 'eval_loss' in entry and 'step' in entry:
             eval_steps.append(entry['step'])
             eval_loss.append(entry['eval_loss'])

@@ -11,16 +11,14 @@ from peft import PeftModel
 
 # --- 1. 路径配置 ---
 BASE_PATH = "/root/autodl-tmp"
-# 这里恢复为基座模型路径
 BASE_MODEL_PATH = os.path.join(BASE_PATH, "models/qwen/Qwen2.5-7B-Instruct") 
-# 这里填入你训练生成的 checkpoint 文件夹
 LORA_PATH = "/root/autodl-tmp/output/qwen2_5-7b-medical-lora—pro/v0-20260110-211358/checkpoint-45"
 DB_PATH = os.path.join(BASE_PATH, "chroma_db")
 TEST_DATA_PATH = os.path.join(BASE_PATH, "medical_sft_pro_test.jsonl")
 
 # 评估参数
-SAMPLE_NUM = 50  # 建议先采样50-100条进行快速评估
-K_VALUE = 50     # 【核心】同步 app_gradio.py 的长上下文检索量，证明 >32k 能力
+SAMPLE_NUM = 50  
+K_VALUE = 50     
 
 print(f"正在初始化评估系统 (长上下文模式 K={K_VALUE})...")
 
@@ -58,7 +56,6 @@ def run_evaluation():
     rouge = Rouge()
     preds, refs = [], []
     
-    # 同步 app_gradio.py 的结构化 System Prompt
     system_instruction = (
         "你是一个极度专业的医疗助手。请在参考资料的基础上，给出具有实操意义、条理清晰的医疗建议。\n\n"
         "【重要提示】：\n"

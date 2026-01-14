@@ -13,7 +13,6 @@ from metric_utils import compute_additional_metrics  # 导入刚才写的工具
 
 # --- 配置区域 ---
 BASE_MODEL_PATH = "/root/autodl-tmp/models/qwen/Qwen2.5-7B-Instruct"
-# 如果要评测基座，将下面设为 None；如果要评测微调，填入 checkpoint 路径
 LORA_PATH = "/root/autodl-tmp/output/qwen2_5-7b-medical-lora—pro/v0-20260110-211358/checkpoint-45" 
 DB_PATH = "/root/autodl-tmp/chroma_db"
 TEST_FILE = "/root/autodl-tmp/medical_sft_pro_test.jsonl"
@@ -74,7 +73,6 @@ def main():
     # 读取测试集
     with open(TEST_FILE, 'r', encoding='utf-8') as f:
         data = [json.loads(line) for line in f]
-        # 为了演示速度，这里只取前 50 条，正式跑可以去掉切片
         data = data[:50] 
 
     print(f"🚀 开始评估 {len(data)} 条样本...")
@@ -99,9 +97,9 @@ def main():
             results['rouge-2'].append(scores[0]['rouge-2']['f'] * 100)
             results['rouge-l'].append(scores[0]['rouge-l']['f'] * 100)
         except:
-            pass # 防止空字符报错
+            pass 
             
-        # 4. 计算高级指标 (Accuracy, Citation, Hallucination)
+        # 4. 计算高级指标
         adv_metrics = compute_additional_metrics(prediction, reference, context_text)
         results['accuracy'].append(adv_metrics['accuracy'])
         results['citation_f1'].append(adv_metrics['citation_f1'])

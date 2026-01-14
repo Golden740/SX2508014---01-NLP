@@ -41,17 +41,17 @@ def build_pro_dataset():
         # 正确资料作为核心
         core_context = row['answer_content']
         
-        # 随机抽取 2 条其他领域的医疗资料作为“噪声”拼在后面
+        # 随机抽2条其他领域的医疗资料作为“噪声”拼在后面
         noise_samples = df_a.sample(2)['answer_content'].tolist()
         extended_context = f"【核心资料】：\n{core_context}\n\n【补充背景（可能无关）】：\n" + "\n".join(noise_samples)
         
         sft_data.append({
             "instruction": system_instruction,
             "input": f"参考资料内容：\n{extended_context}\n\n用户咨询问题：{row['content']}",
-            "output": core_context # 期望输出依然只围绕核心资料，不被噪声干扰
+            "output": core_context 
         })
 
-    # 4. 注入拒识样本 (强化“拒绝回答”逻辑)
+    # 4. 注入拒识样本
     reject_ans = "抱歉，您咨询的问题超出了我的医疗知识库范围。为了您的健康，建议咨询相关专科医生。"
     for _ in range(250):
         sft_data.append({

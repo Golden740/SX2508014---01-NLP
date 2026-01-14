@@ -1,14 +1,14 @@
 import torch.utils._pytree as pytree
 import os
 
-# 1. 核心补丁 (针对 Torch 2.9)
+
 if not hasattr(pytree, 'register_pytree_node'):
     pytree.register_pytree_node = pytree._register_pytree_node
 
-# 2. 导入 Swift 3.x 训练类
+# 导入 Swift 3.x 训练类
 from swift.llm import TrainArguments, sft_main
 
-# 3. 配置训练参数 (严格对齐 Swift 3.x 规范)
+# 配置训练参数
 sft_args = TrainArguments(
     # --- 模型与路径 ---
     model='/root/autodl-tmp/models/qwen/Qwen2.5-7B-Instruct',
@@ -23,19 +23,18 @@ sft_args = TrainArguments(
     max_length=2048,
     gradient_checkpointing=True,
     
-    # ✅ 修正报错：Swift 3.x 将 batch_size 拆分为以下两个参数
     per_device_train_batch_size=1, 
     per_device_eval_batch_size=1,
     
-    # --- LoRA 核心参数 (已修正名) ---
+    # --- LoRA 核心参数 ---
     target_modules=['q_proj', 'v_proj', 'k_proj', 'o_proj'], # 删掉 lora_ 前缀
     lora_rank=8,
     lora_alpha=32,
     lora_dropout=0.05,
 
-    # --- 🚀 核心修改：增加以下三行 ---
-    eval_steps=5,               # 2. 每 10 步就跑一次验证集（建议与 logging_steps 一致，这样点最密集）
-    logging_steps=5,            # 3. 每 10 步记录一次训练 Loss
+    
+    eval_steps=5,               
+    logging_steps=5,          
     
     # --- 训练策略 ---
     learning_rate=1e-4,
